@@ -135,3 +135,49 @@ button[type="submit"] {
   border-top: 1px solid #ccc;
   padding-top: 10px;
 }
+
+select {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #999;
+  box-sizing: border-box;
+  font-size: 1em;
+  margin-bottom: 10px;
+}
+
+#cotizaciones,
+#resultado-conversion {
+  font-weight: bold;
+}
+
+#loader {
+  margin: 8px 0;
+  color: #666;
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 3px solid #ccc;
+  border-top-color: #4caf50;
+  border-radius: 50%;
+  vertical-align: middle;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+.banner-error {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  max-width: 320px;
+  background-color: #cc0000;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 4px;
+  z-index: 10;
+}

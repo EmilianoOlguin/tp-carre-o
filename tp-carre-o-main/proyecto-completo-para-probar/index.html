@@ -8,6 +8,9 @@
 </head>
 <body>
 
+    <div id="banner-error" class="banner-error oculto" role="alert"></div>
+
+
   <h1>Inventario de Robótica y Automatización</h1>
   <p>Grupo 4 - Adaptación al Ambiente de Trabajo</p>
 
@@ -58,6 +61,16 @@
   <h2>Inventario actual</h2>
   <input type="search" id="buscador" placeholder="Buscar componente por nombre..." />
   <p id="resumen-inventario"></p>
+    <h2>Conversión de moneda</h2>
+  <p id="cotizaciones"></p>
+  <div id="loader" class="oculto"><span class="spinner"></span> Consultando cotizaciones...</div>
+  <label for="selector-moneda">Convertir el valor total a:</label>
+  <select id="selector-moneda">
+    <option value="">Elegí una moneda</option>
+    <option value="EUR">Euros (EUR)</option>
+    <option value="BRL">Reales (BRL)</option>
+  </select>
+  <p id="resultado-conversion"></p>
 
   <div id="lista-componentes">
     <!-- Las tarjetas se generan dinámicamente desde js/ui.js -->
