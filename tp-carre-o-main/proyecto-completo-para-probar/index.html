@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventario de Robótica - Grupo 4</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <h1>Inventario de Robótica y Automatización</h1>
+  <p>Grupo 4 - Adaptación al Ambiente de Trabajo</p>
+
+  <h2>Agregar componente</h2>
+  <form id="form-componente" novalidate>
+
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Ej: Servomotor SG90" />
+      <p class="mensaje-error"></p>
+    </div>
+
+    <div class="campo">
+      <label for="stock">Stock (unidades)</label>
+      <input type="number" id="stock" name="stock" min="0" step="1" placeholder="0" />
+      <p class="mensaje-error"></p>
+    </div>
+
+    <div class="campo">
+      <label for="precio">Precio unitario ($)</label>
+      <input type="number" id="precio" name="precio" min="0" step="0.01" placeholder="0.00" />
+      <p class="mensaje-error"></p>
+    </div>
+
+    <div class="campo">
+      <label>
+        <input type="checkbox" id="es-microcontrolador" name="es-microcontrolador" />
+        Es un microcontrolador (Arduino, ESP32, etc.)
+      </label>
+    </div>
+
+    <div id="campos-microcontrolador" class="oculto">
+      <div class="campo">
+        <label for="pines-gpio">Pines GPIO</label>
+        <input type="number" id="pines-gpio" name="pines-gpio" min="0" step="1" placeholder="0" />
+      </div>
+      <div class="campo">
+        <label>
+          <input type="checkbox" id="soporta-wifi" name="soporta-wifi" />
+          Soporta WiFi
+        </label>
+      </div>
+    </div>
+
+    <button type="submit">Agregar al inventario</button>
+  </form>
+
+  <h2>Inventario actual</h2>
+  <input type="search" id="buscador" placeholder="Buscar componente por nombre..." />
+  <p id="resumen-inventario"></p>
+
+  <div id="lista-componentes">
+    <!-- Las tarjetas se generan dinámicamente desde js/ui.js -->
+  </div>
+
+  <p class="pie">Trabajo Práctico Integrador - 2do Trimestre - Grupo 4 (Olguin, Aguirre, Bringas)</p>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
