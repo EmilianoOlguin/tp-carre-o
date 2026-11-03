@@ -4,7 +4,7 @@ import { ApiClient } from './ApiClient.js';
 
 const CLAVE_STORAGE = 'inventario-robotica-grupo4';
 
-// Esta clase2 es la que administra la lista completa de componentes.
+// Esta clase es la que administra la lista completa de componentes.
 // Ninguna otra parte del programa toca el array directamente: todo
 // pasa por acá (agregar, buscar, filtrar, borrar, guardar).
 //

@@ -6,7 +6,13 @@ import {
   renderizarResumen,
   mostrarErrorFormulario,
   limpiarErrorFormulario,
+  mostrarLoader,
+  ocultarLoader,
+  mostrarBannerError,
+  renderizarCotizaciones,
+  renderizarConversion,
 } from './ui.js';
+import { validarMoneda, validarCotizaciones, validarConversion } from './Validaciones.js';
 
 const coleccion = new ColeccionComponentes();
 
@@ -22,6 +28,11 @@ const inputStock = document.getElementById('stock');
 const inputPrecio = document.getElementById('precio');
 const inputPines = document.getElementById('pines-gpio');
 const inputWifi = document.getElementById('soporta-wifi');
+const banner = document.getElementById('banner-error');
+const loader = document.getElementById('loader');
+const textoCotizaciones = document.getElementById('cotizaciones');
+const selectorMoneda = document.getElementById('selector-moneda');
+const resultadoConversion = document.getElementById('resultado-conversion');
 
 function actualizarVista(listaAMostrar = coleccion.obtenerTodos()) {
   renderizarLista(contenedorLista, listaAMostrar);
@@ -108,7 +119,51 @@ contenedorLista.addEventListener('click', (evento) => {
   actualizarVista(coleccion.filtrarPorNombre(buscador.value));
 });
 
+// Carga inicial de cotizaciones. El selector queda deshabilitado
+// hasta que termine, y el finally garantiza que el loader se oculte
+// tanto si salió bien como si falló.
+async function cargarCotizacionesIniciales() {
+  selectorMoneda.disabled = true;
+  mostrarLoader(loader);
+  try {
+    const cotizaciones = await coleccion.cargarCotizaciones();
+    if (!validarCotizaciones(cotizaciones)) {
+      throw new Error('La API devolvió cotizaciones incompletas.');
+    }
+    renderizarCotizaciones(textoCotizaciones, cotizaciones);
+  } catch (error) {
+    mostrarBannerError(banner, error.message);
+  } finally {
+    ocultarLoader(loader);
+    selectorMoneda.disabled = false;
+  }
+}
+
+selectorMoneda.addEventListener('change', async () => {
+  const moneda = selectorMoneda.value;
+  resultadoConversion.textContent = '';
+  if (!validarMoneda(moneda)) return;
+
+  // Se deshabilita el selector mientras la promesa está pendiente
+  // para que no se disparen varias peticiones a la vez.
+  selectorMoneda.disabled = true;
+  mostrarLoader(loader);
+  try {
+    const resultado = await coleccion.convertirMonedaInventario(moneda);
+    if (!validarConversion(resultado)) {
+      throw new Error('La API devolvió datos inválidos para la conversión.');
+    }
+    renderizarConversion(resultadoConversion, resultado);
+  } catch (error) {
+    mostrarBannerError(banner, error.message);
+  } finally {
+    ocultarLoader(loader);
+    selectorMoneda.disabled = false;
+  }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   coleccion.cargarDesdeLocalStorage();
   actualizarVista();
+  cargarCotizacionesIniciales(); 
 });
